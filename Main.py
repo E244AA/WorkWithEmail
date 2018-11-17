@@ -1,27 +1,18 @@
-import smtplib
-from email.mime.multipart import MIMEMultipart
-from email.mime.text import MIMEText
+import sender
+import email_getter
 
 HOST = "smtp.yandex.ru"
-SUBJECT = "Test email from Python"
-TO = "russian.patriot2001@yandex.ru"
-FROM = "russian.patriot2001@yandex.ru"
-text = "Python 3.4 rules them all!"
+SUBJECT = ""
+TO = ""
+FROM = "russian.patriot2001@yandex.ru" # - author
+text = ""
 
-msg = MIMEMultipart('alternative')
-msg['Subject'] = "Nice"
-msg['From'] = FROM
-msg['To'] = TO
+username = 'user'
+password = 'pass'
 
-html = '<html><body><p>' + text + '</p></body></html>'
-part2 = MIMEText(html, 'html')
+s = sender.Sender()
 
-msg.attach(part2)
-
-username = "username"
-password = "password"
-
-s = smtplib.SMTP_SSL('smtp.yandex.ru',465)
-s.login(username,password)
-s.send_message(msg,FROM,TO)
+s.setInformation(HOST,465,username,password)
+s.login()
+s.sendMessage(FROM,TO,SUBJECT,text)
 s.quit()
